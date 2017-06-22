@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScriptの練習</title>
+</head>
+<body>
+
+	<h1>見出し</h1>
+	<p id="msg">こんにちは！</p>
+	<button id="add">Click!</button>
+
+	<!--
+	外部からファイルを引っ張る方法。
+	<script src="myscript.js"></script>
+ 	-->
+
+	<script>
+		//idがmsgの内容を取り出す
+		var e = document.getElementById('msg');
+		//helloをeに代入する
+		e.textContent = 'hello!';
+
+		e.style.color ='red';
+		e.className = 'mystyle';
+
+
+		var greet = document.createElement('p'),
+			text = document.createTextNode('hello world');
+		//bodyに対して、個要素の一番下に追加するとき、appendChild
+		document.body.appendChild(greet).appendChild(text);
+
+
+		document.getElementById('add').addEventListener('click', function(){
+			var greet = document.createElement('p'),
+			text = document.createTextNode('hello world');
+			//bodyに対して、個要素の一番下に追加するとき、appendChild
+			document.body.appendChild(greet).appendChild(text);
+		});
+		//document.getElementById('add')で、ボタンを取得
+		//.addEventListener('click', function()) で、
+		//ボタンがクリックされたときに、functionのイベントをひもづける
+
+
+	/*
+		var msg;
+		msg = "hello world!";
+
+		●以下のように、カンマでくぎって、一気に宣言&代入できる
+		var msg = "hello world!",
+		x = 20,
+		y = 10;
+
+
+		●改行、タブ、
+		var s;
+		s = "helllo";
+		s = 'hel\'lo'; //\は'を文字として認識するもの
+		\n 改行
+		\t タブ
+
+		var s;
+		s = 'it\'s\na pe\tn.';
+
+		表示されるのは、it's
+		a pe	n.
+		var s;
+		s = 'it\'s\na pe\tn.';
+
+		●表示
+		片方が文字列だと、文字列としてでてくる
+		s = "5" + 5 //55
+		s = 5 + 5 //10
+
+		●演算子
+		==  ===
+		!= !==
+			右のほうが厳密
+
+		●真偽値
+		文字列：空文字以外だったらtrue
+		・数値：０かNot a Number(NaN)以外だったらtrue
+			true / false
+		・object:null以外だったらtrue
+			undefined, null -> false
+
+
+		●switch文
+		var signal = "red";
+			switch(signal) {
+			case "red":
+				console.log("stop!");
+				break;
+			case "green":
+			case "blue":   こんなふうに並べることも可。
+				console.log("go!");
+				break;
+			case "yellow":
+				console.log("slow down!");
+				break;
+			default:
+				console.log("wrong signal");
+				break;
+			}
+
+		●ループ処理を抜ける
+			if(i === 5) {
+				break; //5になったら、ループを抜ける
+				continue;//5はスキップ
+			}
+
+
+
+		●alertなど
+		//OKボタンがついたアラートボックスを出してくれる
+		alert("hello");
+
+		//OKボタンがついたアラートボックスを出してくれる
+		var answer = confirm("are you sure?");
+		OKならtrue、キャンセルならfalseがかえってくる
+
+		console.log(answer);//true or falseが返ってくる
+		以下のような使い方ができる
+		if(confirm("本当に削除しますか？")) {
+			//削除処理
+		}
+
+
+		var name = prompt("お名前は？", "（初期値も入力可）");
+		console.log(name);
+		入力がないと、nullで返ってくる
+
+
+		●関数
+
+		function 関数名（）{
+			処理
+			return 返り値で返り値の設定も可
+		}
+
+		//以下で設定
+		function hello(name) {
+			console.log("hello" + name);
+		}
+		//以下で処理を実行
+		hello("Tom");
+		Hello("Bob");
+
+		//返り値アリバージョン
+		function hello(name) {
+			return "hello " + name;
+		}
+		var greet = hello("Tom");
+		console.log(greet);
+
+
+		//関数を変数にすることも可能
+		　変数に代入していることになるので、
+		　{}内の各命令文だけでなく、全体の命令文にも「;」
+		var hello = function (name) {
+			return "hello " + name
+		};//全体の命令文にも;
+		var greet = hello("Tom");
+		console.log(greet);
+
+
+		●即時関数
+		functionの設定とともにすぐ使える
+		function全体を()で囲い、その外に、();をつける
+		引数がある場合は、引数を設定
+
+		( function hello(name) {
+			console.log("hello" + name);
+		})("Tom");
+
+
+			即時関数は、他からアクセスできなくなる
+			変数を安全に使える
+			他の人のコードを組み込みながら書いていくときに使える
+
+		( function () {
+			var x = 10;
+				y = 20;
+			console.log(x + y);
+		} )();
+
+		●タイマー処理
+		setInterval：一定時間ごとにある処理を繰り返す
+			前の処理が終わったかどうかを考えずに次の処理を行い、
+			重い処理だと、クラッシュすることもある
+		setTimeout：一定時間後に一回だけある処理を行う
+			繰り返し処理は、実は楽。
+
+		setInterval ある一定時間ごとにカウントアップすること
+		var i = 0;
+		fuction show() {
+			console.log(i++);
+		}
+		setInterval (function() {
+			show();
+		}, 1000);　ミリ秒で指定
+
+		setInterval(function, ミリ秒);
+		ミリ秒ごとに、functionをおこなう
+		setTimeout(function, ミリ秒);
+		ミリ秒後に、functionを行う
+
+		▲setTimeoutで繰り返し処理をする場合
+		showの中にshowをいれてあげる
+		var i = 0;
+		fuction show() {
+			//iを表示して、カウントアップ、以下のように一緒に書くことができる。
+			console.log(i++);
+			var tid = setTimeout(function() {
+				show();
+			}), 1000);
+			if (i > 3) {
+				clearTimeout(tid);//処理を
+			}
+		}
+		//これで実行。
+		show();
+
+
+
+		●配列
+		var score = [100, 300, 500];//数字以外も入れられる
+		console.log(score); //配列を表示
+
+		配列の中に配列もいれられる
+		var m = [
+		         [1, 2, 3]
+		         [4, 5, 6]
+		];
+		console.log(m[1][1]); //5がとれる
+
+		●オブジェクト
+		var user = {
+				email: "taguchi", //それぞれをプロパティという
+				score: 80
+				//以下のように関数も指定可能
+				greet: function(name) {
+					console.log("hello, " + name);
+				}
+		};
+
+		プロパティの値の表示の仕方(どっちでもＯＫ)
+		console.log(user["email"]);
+		console.log(user.email);
+		user.greet("Tom");
+
+		値の代入
+		user.score = 100;
+
+
+		●組み込みオブジェクト
+		元から存在するオブジェクト。使える
+		▲String
+		URL「ＭＤＮ String」で検索
+
+		//文字列オブジェクト
+		var s = new String("taguchi");
+
+		.length .replace .substr(1,3)
+
+		//文字列リテラル
+		var s = "taguchi";
+
+
+		リテラルでも、
+		javascriptがオブジェクトに変換してくれる。
+
+
+		▲Array
+		var a = new Array(100, 300, 200);
+		先頭にいれる:unshift
+		先頭を除去する:shift
+		末尾にいれる:push
+		末尾を除去する:pop
+		たとえば、a.push(500);
+
+		splice(index名, そこから何index消すか)
+		a.splice(1,2);
+
+		▲Math
+		切り上げ、切捨て、四捨五入、円周率など。
+		consolelog(Math.PI);
+		ランダム値をとることもできる。いろいろあるよ
+
+		▲Date
+		var d = new Date();//今日
+		var d = new Date(2014, 1, 11, 10, 20, 30);
+		2014年2月11日10時20分30秒
+		（月は、0からカウントする）
+
+		console.log(d.getFullYear()); 年を表示
+		console.log(d.getMonth()); 月を表示
+
+
+
+		●ＤＯＭ
+		ブラウザのいろいろにアクセスできる
+		たとえば、
+			ウィンドウの高さを得る
+			console.log(window.outerHeight);
+			別のサイトに飛ばす
+			window.location.href = 'http://honyararara';
+
+
+			今開いているページは
+			window.document(documentのみでも可)
+
+			document object model(DOM)いろんな暗号あるよ
+
+
+
+	*/
+
+
+
+
+	</script>
+</body>
+</html>
